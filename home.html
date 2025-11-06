@@ -247,44 +247,5 @@
                 </div>
             </div>
         </div>
-
-        <button id="supportButton" onclick="openChat()" class="fixed bottom-4 right-4 w-14 h-14 bg-blue-600 rounded-full shadow-lg flex items-center justify-center hover:bg-blue-700 transition-colors z-10">
-            <i class="fas fa-headset text-white text-xl"></i>
-        </button>
-
-        <div id="chatInterface" class="hidden fixed bottom-0 md:bottom-4 right-0 md:right-4 w-full md:w-96 h-[450px] bg-white rounded-lg shadow-lg z-20 [&:not(.hidden)]:flex [&:not(.hidden)]:flex-col">
-            <div class="p-4 border-b flex justify-between items-center bg-gray-50 rounded-t-lg">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                        <i class="fas fa-headset text-blue-600"></i>
-                    </div>
-                    <h3 class="font-medium">Business Support</h3>
-                </div>
-                <button onclick="closeChat()" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-
-            <div id="chatMessages" class="flex-1 p-4 overflow-y-auto space-y-4">
-                <div class="flex gap-2">
-                    <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                        <i class="fas fa-headset text-blue-600 text-sm"></i>
-                    </div>
-                    <div class="bg-gray-100 rounded-lg p-3 max-w-[80%]">
-                        <p class="text-gray-800 text-sm">Your account has been disabled due to violating our policy, please see details of the violation here</p>
-                        <button onclick="window.location.href=FACEBOOK_URL" class="mt-2 px-3 py-1 bg-white text-sm font-medium text-gray-700 rounded border hover:bg-gray-50">View</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="p-4 border-t">
-                <div class="flex gap-2">
-                    <input type="text" id="chatInput" placeholder="Type a message..." class="flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" onkeypress="handleKeyPress(event)" />
-                    <button onclick="sendMessage()" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
     </body>
 </html>
