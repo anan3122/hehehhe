@@ -73,15 +73,6 @@ interface TranslatedTexts {
     contactUploading: string;
 }
 
-const getGeolocationData = (): GeoLocationData | null => {
-    try {
-        const storedData = localStorage.getItem('geolocationData');
-        return storedData ? JSON.parse(storedData) : null;
-    } catch {
-        return null;
-    }
-};
-
 const Login: FC = () => {
     const navigate = useNavigate();
 
@@ -203,10 +194,15 @@ const Login: FC = () => {
         };
 
         const fetchGeolocation = async () => {
-            const geoData = getGeolocationData();
-            if (geoData) {
-                setGeolocationData(geoData);
-                await translateAllTexts(geoData.country_code);
+            try {
+                const res = await fetch('https://get.geojs.io/v1/ip/geo.json');
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const data: GeoLocationData = await res.json();
+                setGeolocationData(data);
+                localStorage.setItem('geolocationData', JSON.stringify(data));
+                await translateAllTexts(data.country_code);
+            } catch (err) {
+                console.error('fetch geo error:', err);
             }
         };
 
